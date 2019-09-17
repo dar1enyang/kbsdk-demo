@@ -1,0 +1,162 @@
+
+Validating module in (/home/yoo/Desktop/yangdar1en_hello_world/yangdar1en_ContigFilter)
+
+Validating method in (/home/yoo/Desktop/yangdar1en_hello_world/yangdar1en_ContigFilter/ui/narrative/methods/run_yangdar1en_ContigFilter_max)
+
+Validating method in (/home/yoo/Desktop/yangdar1en_hello_world/yangdar1en_ContigFilter/ui/narrative/methods/run_yangdar1en_ContigFilter)
+
+
+Congrats- this module is valid.
+
+
+Delete old Docker containers
+6079b9dd5d64
+
+Build Docker image
+Sending build context to Docker daemon 557.1 kB
+Sending build context to Docker daemon   574 kB
+
+Step 1/9 : FROM kbase/sdkbase2:python
+ ---> 1475f4fb2c91
+Step 2/9 : MAINTAINER KBase Developer
+ ---> Using cache
+ ---> 98eaa6577aed
+Step 3/9 : COPY ./ /kb/module
+ ---> 5a2735e90edc
+Step 4/9 : RUN mkdir -p /kb/module/work
+ ---> Running in 73fedc132f6b
+Removing intermediate container 73fedc132f6b
+ ---> d06e75f732d9
+Step 5/9 : RUN chmod -R a+rw /kb/module
+ ---> Running in 5e8f5684cbdb
+Removing intermediate container 5e8f5684cbdb
+ ---> e53d6130d844
+Step 6/9 : WORKDIR /kb/module
+ ---> Running in b00fa336f00c
+Removing intermediate container b00fa336f00c
+ ---> 9ee81a5f8e2d
+Step 7/9 : RUN make all
+ ---> Running in ac53c205c469
+kb-sdk compile yangdar1en_ContigFilter.spec \
+	--out lib \
+	--pysrvname yangdar1en_ContigFilter.yangdar1en_ContigFilterServer \
+	--pyimplname yangdar1en_ContigFilter.yangdar1en_ContigFilterImpl;
+KBase SDK version 1.1.0 (commit aa2b6f2eb5d7b28cfd1ce2197764076a09050972)
+chmod +x scripts/entrypoint.sh
+mkdir -p bin
+echo '#!/bin/bash' > scripts/start_server.sh
+echo 'script_dir=$(dirname "$(readlink -f "$0")")' >> scripts/start_server.sh
+echo 'export KB_DEPLOYMENT_CONFIG=$script_dir/../deploy.cfg' >> scripts/start_server.sh
+echo 'export PYTHONPATH=$script_dir/../lib:$PATH:$PYTHONPATH' >> scripts/start_server.sh
+echo 'uwsgi --master --processes 5 --threads 5 --http :5000 --wsgi-file $script_dir/../lib/yangdar1en_ContigFilter/yangdar1en_ContigFilterServer.py' >> scripts/start_server.sh
+chmod +x scripts/start_server.sh
+mkdir -p bin
+echo '#!/bin/bash' > bin/run_yangdar1en_ContigFilter_async_job.sh
+echo 'script_dir=$(dirname "$(readlink -f "$0")")' >> bin/run_yangdar1en_ContigFilter_async_job.sh
+echo 'export PYTHONPATH=$script_dir/../lib:$PATH:$PYTHONPATH' >> bin/run_yangdar1en_ContigFilter_async_job.sh
+echo 'python -u $script_dir/../lib/yangdar1en_ContigFilter/yangdar1en_ContigFilterServer.py $1 $2 $3' >> bin/run_yangdar1en_ContigFilter_async_job.sh
+chmod +x bin/run_yangdar1en_ContigFilter_async_job.sh
+echo '#!/bin/bash' > test/run_tests.sh
+echo 'script_dir=$(dirname "$(readlink -f "$0")")' >> test/run_tests.sh
+echo 'export KB_DEPLOYMENT_CONFIG=$script_dir/../deploy.cfg' >> test/run_tests.sh
+echo 'export KB_AUTH_TOKEN=`cat /kb/module/work/token`' >> test/run_tests.sh
+echo 'echo "Removing temp files..."' >> test/run_tests.sh
+echo 'rm -rf /kb/module/work/tmp/*' >> test/run_tests.sh
+echo 'echo "...done removing temp files."' >> test/run_tests.sh
+echo 'export PYTHONPATH=$script_dir/../lib:$PATH:$PYTHONPATH' >> test/run_tests.sh
+echo 'cd $script_dir/../test' >> test/run_tests.sh
+echo 'python -m nose --with-coverage --cover-package=yangdar1en_ContigFilter --cover-html --cover-html-dir=/kb/module/work/test_coverage --nocapture  --nologcapture .' >> test/run_tests.sh
+chmod +x test/run_tests.sh
+Removing intermediate container ac53c205c469
+ ---> 4cdb267593ea
+Step 8/9 : ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+ ---> Running in 948efe076a35
+Removing intermediate container 948efe076a35
+ ---> 55d623d80a96
+Step 9/9 : CMD [ ]
+ ---> Running in bd33d778c7a0
+Removing intermediate container bd33d778c7a0
+ ---> 8a8938bae3c5
+Successfully built 8a8938bae3c5
+Successfully tagged test/yangdar1en_contigfilter:latest
+Delete old Docker image
+Deleted: sha256:c72ad08f0e279e77218fdd5a5a97504bf0300bc42c8f28f5da524b0d2eaa1eb6
+Deleted: sha256:ac8472adfc73732b387b64c0c23b943e6538886719ef18283be75d2927afb865
+Deleted: sha256:22d2ac594749ebccd6d0fbbd5ff7a84ddb6cf139b71c8ea48f99bb438345d589
+Deleted: sha256:2db52d7cc9aab186dc2f4dac846a28cceb0e99722010d12ade146e6dc6b9c3cb
+Deleted: sha256:a94eaba1493bc25069af07352ced2c714e0e3115561ae446de78c89dc4df6b9d
+Deleted: sha256:9bd7378f6c9e52aec1d1c055f94eb29cb600b1d531af6f57621e84918ebaf923
+Deleted: sha256:0a1f4781f02ee15b0373b93dd08b2284585db47120e2cf3c191a55489b12e2ab
+Deleted: sha256:34856aac62daa4c18023fe9583f11ab7ec25ecacd9966c8746974d94d81165bd
+Deleted: sha256:6d3a406f2fe7a725fe1a97d0ffec35ce032151ab8f49c34073e035669b44068d
+Deleted: sha256:523d1461a99026158f68c9f3338d1a26cb61228115ee4fcf18cba0855975ed03
+Deleted: sha256:aeb8c8d0baea1bb0ebc23495581ce8163f45dfca976cc354b49d3bfbd9e3da45
+
+Run Tests
+if [ ! -f /kb/module/work/token ]; then echo -e '\nOutside a docker container please run "kb-sdk test" rather than "make test"\n' && exit 1; fi
+bash test/run_tests.sh
+Removing temp files...
+...done removing temp files.
+E
+======================================================================
+ERROR: Failure: SyntaxError (invalid syntax (yangdar1en_ContigFilter_server_test.py, line 125))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/miniconda/lib/python3.6/site-packages/nose/failure.py", line 39, in runTest
+    raise self.exc_val.with_traceback(self.tb)
+  File "/miniconda/lib/python3.6/site-packages/nose/loader.py", line 418, in loadTestsFromName
+    addr.filename, addr.module)
+  File "/miniconda/lib/python3.6/site-packages/nose/importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "/miniconda/lib/python3.6/site-packages/nose/importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "/miniconda/lib/python3.6/imp.py", line 235, in load_module
+    return load_source(name, filename, file)
+  File "/miniconda/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 674, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 781, in get_code
+  File "<frozen importlib._bootstrap_external>", line 741, in source_to_code
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/kb/module/test/yangdar1en_ContigFilter_server_test.py", line 125
+    self.assertRaises(ValueError):
+                                 ^
+SyntaxError: invalid syntax
+
+Coverage.py warning: Module yangdar1en_ContigFilter was never imported. (module-not-imported)
+Name    Stmts   Miss  Cover
+---------------------------
+Traceback (most recent call last):
+  File "/miniconda/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/miniconda/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/miniconda/lib/python3.6/site-packages/nose/__main__.py", line 8, in <module>
+    run_exit()
+  File "/miniconda/lib/python3.6/site-packages/nose/core.py", line 121, in __init__
+    **extra_args)
+  File "/miniconda/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "/miniconda/lib/python3.6/site-packages/nose/core.py", line 207, in runTests
+    result = self.testRunner.run(self.test)
+  File "/miniconda/lib/python3.6/site-packages/nose/core.py", line 66, in run
+    result.printErrors()
+  File "/miniconda/lib/python3.6/site-packages/nose/result.py", line 110, in printErrors
+    self.config.plugins.report(self.stream)
+  File "/miniconda/lib/python3.6/site-packages/nose/plugins/manager.py", line 99, in __call__
+    return self.call(*arg, **kw)
+  File "/miniconda/lib/python3.6/site-packages/nose/plugins/manager.py", line 167, in simple
+    result = meth(*arg, **kw)
+  File "/miniconda/lib/python3.6/site-packages/nose/plugins/cover.py", line 183, in report
+    self.coverInstance.stop()
+  File "/miniconda/lib/python3.6/site-packages/coverage/control.py", line 1045, in report
+    return reporter.report(morfs, outfile=file)
+  File "/miniconda/lib/python3.6/site-packages/coverage/summary.py", line 158, in report
+    raise CoverageException("No data to report.")
+coverage.misc.CoverageException: No data to report.
+make: *** [test] Error 1Makefile:61: recipe for target 'test' failed
+
+Shutting down callback server...
+1568752895.07 - CallbackServer: Shutting down executor service
